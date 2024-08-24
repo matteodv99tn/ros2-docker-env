@@ -11,6 +11,19 @@ if ! shopt -oq posix; then
         . /etc/bash_completion
     fi
 fi
+export TERM=xterm-256color
+
+# For robotpkg
+export PATH=/opt/openrobots/bin:$PATH
+export PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:$PKG_CONFIG_PATH
+export LD_LIBRARY_PATH=/opt/openrobots/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=/opt/openrobots/lib/python3.10/site-packages:$PYTHONPATH # Adapt your desired python version here
+export CMAKE_PREFIX_PATH=/opt/openrobots:$CMAKE_PREFIX_PATH
+
+# NVIM
+export PATH="$PATH:/opt/nvim-linux64/bin"
+
+export CMAKE_EXPORT_COMPILE_COMMANDS=1
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -31,4 +44,5 @@ if test -f $HOME/ros2_ws/install/setup.bash; then
     source $HOME/ros2_ws/install/setup.bash
 fi
 
-alias cb='colcon build --symlink-install'
+alias cb='cd /home/user/ros2_ws && colcon build --symlink-install'
+alias clr='rm -rf /home/user/ros2_ws/build /home/user/ros2_ws/install /home/user/ros2_ws/log'
