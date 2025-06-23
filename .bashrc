@@ -21,7 +21,7 @@ export PYTHONPATH=/opt/openrobots/lib/python3.10/site-packages:$PYTHONPATH # Ada
 export CMAKE_PREFIX_PATH=/opt/openrobots:$CMAKE_PREFIX_PATH
 
 # NVIM
-export PATH="$PATH:/opt/nvim-linux64/bin"
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
 export CMAKE_EXPORT_COMPILE_COMMANDS=1
 
