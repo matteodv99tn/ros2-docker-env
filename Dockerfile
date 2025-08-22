@@ -8,13 +8,13 @@ RUN useradd -ms /bin/bash user \
 # Base software packages
 RUN apt-get update \
     && apt-get install -y \
+        psmisc \
         curl \
         wget \
         tmux \
         git \
         unzip \
         bash-completion \
-        npm \
         vim \
         btop \
         figlet \
@@ -37,11 +37,16 @@ RUN apt-get update \
         xorg-dev \
     && rm -rf /var/lib/apt/lists/* \
     && ln -s /usr/bin/yapf3 /usr/bin/yapf 
-
 # Prepare user environment: starship, tmux
 RUN curl -sS https://starship.rs/install.sh | sh -s -- -y -y
 
 USER user
+
+# Setup nvm / node
+SHELL ["/bin/bash", "--login", "-c"]
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash 
+RUN cd ~ && . ~/.nvm/nvm.sh && nvm install 22
+
 RUN git clone https://github.com/catppuccin/tmux.git /home/user/.config/tmux/plugins/catppuccin
 
 RUN mkdir -p ~/.local && cd ~/.local \
@@ -72,7 +77,7 @@ COPY clang-format /home/user/.clang-format
 
 # Custom .bashrc setup
 RUN echo "export TERM=xterm-256color" >> ~/.bashrc \
-    && echo "export PATH=$PATH:~/.local/nvim-linux-x86_64/bin" >> ~/.bashrc \ 
+    && echo "export PATH=\$PATH:~/.local/nvim-linux-x86_64/bin" >> ~/.bashrc \ 
     && echo "export CMAKE_EXPORT_COMPILE_COMMANDS=1" >> ~/.bashrc \ 
     && echo "" >> ~/.bashrc \
     && echo "alias ..='cd ..'" >> ~/.bashrc \ 
@@ -87,6 +92,9 @@ RUN echo "export TERM=xterm-256color" >> ~/.bashrc \
     && echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc \
     && echo "if test -f $HOME/ros2_ws/install/setup.bash; then" >> ~/.bashrc \
     && echo "    source $HOME/ros2_ws/install/setup.bash" >> ~/.bashrc \
+    && echo "fi" >> ~/.bashrc \
+    && echo "if test -f $HOME/ros_ws/install/setup.bash; then" >> ~/.bashrc \
+    && echo "    source $HOME/ros_ws/install/setup.bash" >> ~/.bashrc \
     && echo "fi" >> ~/.bashrc \
     && echo "" >> ~/.bashrc \
     && echo "alias cb='cd ~/ros_ws && colcon build --symlink-install'" >> ~/.bashrc \
