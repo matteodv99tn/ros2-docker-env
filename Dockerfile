@@ -50,7 +50,7 @@ RUN cd ~ && . ~/.nvm/nvm.sh && nvm install 22
 RUN git clone https://github.com/catppuccin/tmux.git /home/user/.config/tmux/plugins/catppuccin
 
 RUN mkdir -p ~/.local && cd ~/.local \
-    && curl -LO https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.tar.gz \
+    && curl -LO https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.tar.gz \
     && rm -rf ~/.local/nvim \
     && tar -C ~/.local -xzf nvim-linux-x86_64.tar.gz
 
